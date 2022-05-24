@@ -1,0 +1,490 @@
+/* 
+ * UTILITY CSS CODE - tools to make your life easier! :)
+ */
+
+* {
+    /* We love you, border-box!  :D */
+    box-sizing: border-box;
+}
+
+/* Screen-reader only text */
+.sr-only:not(:focus) {
+    clip: rect(1px,1px,1px,1px);
+    overflow: hidden;
+    position: absolute;
+    padding: 0;
+}
+
+/* Clearfix solution 1: No IE support */
+.clearfix,
+.cf {
+    /* Reset the BFC for the parent/container element */
+    display: flow-root;
+}
+
+/* Clearfix solution 2: ALL the browser support */
+/* .clearfix::after,
+.cf::after {
+    content: "";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    line-height: 0;
+} */
+
+
+/*
+ * Generic image resizer to make images "responsive".
+ * Images should always fit into their container & stay in proportion - max-width & height.
+ */
+img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    /* object-fit: contain; */
+}
+
+
+/* 
+ * CUSTOM CSS CODE - specific styling for THIS website
+ */
+
+/* Site-wide styles - set up custom properties (CSS variables) */
+:root {
+    --font-serif: Georgia, 'Times New Roman', Times, serif;
+    --font-sans-serif: Arial, Helvetica, sans-serif;
+    --colour-random-blue: #00aced;
+    --colour-random-dark-blue: #027ba7;
+    --colour-grey-extra-light: #f5f5f5;
+    --colour-grey-light: #999;
+    --colour-grey-mid: #666;
+    --colour-grey-dark: #333;
+}
+
+html {
+    /* font-size: 10px; */
+    /* font-size: 62.5%; */
+    font-size: 0.625em;   /* 1rem ~= 10px (based on browser default)  */
+    /*
+        em = font-size of this element
+        rem = font-size of the ROOT element (HTML)
+    */
+}
+
+body {
+    background-color: var(--colour-grey-extra-light);
+    color: var(--colour-grey-dark);
+    font-family: var(--font-sans-serif);
+    font-size: 1.5em; /* or 1.5rem - no difference */
+    line-height: 1.25;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: var(--colour-grey-mid);
+    text-transform: uppercase;
+}
+
+h2 {
+    margin: 6rem 0 3rem;
+    text-align: center;
+    font-size: 2rem;  /* ~20px */
+    font-weight: normal;
+    letter-spacing: 0.05em;
+}
+
+a {
+    padding-bottom: 0.25em;
+    color: var(--colour-random-blue);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--colour-random-blue);
+}
+
+/* 
+   "LoVe Fears HAte" - "should" be specified in order...
+   link, visited, focus, hover, active
+ */
+a:link {}
+a:visited {}
+a:focus,
+a:hover {
+    color: var(--colour-random-dark-blue);
+    border-color: var(--colour-random-dark-blue);
+    /* outline: none;
+    box-shadow: 0 0 3px var(--colour-random-blue); */
+}
+a:active {}
+
+blockquote {
+    font-family: var(--font-serif);
+    font-size: 2rem;  /* ~20px */
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: var(--colour-grey-mid);
+}
+
+b.special {
+    color: var(--colour-random-blue);
+    font-weight: inherit;
+}
+
+
+/* LINE-THROUGH STYLING */
+/* Drawing the lines in the headings & copyright text */
+
+/* 
+ * OPTION 1: Drawing the line - using border & relative positioning.
+ * Browser support: excellent
+ * Limitations: limited to solid BG for page.
+ */
+
+/* .line-through {
+    position: relative;
+    top: -0.65em;
+    border-bottom: 1px solid var(--colour-grey-light);
+}
+
+.line-through > * {
+    position: relative;
+    top: 0.65em;
+    padding: 0 10px;
+    background-color: var(--colour-grey-extra-light);
+} */
+
+
+/* 
+ * OPTION 2: Drawing the line - using linear-gradient().
+ * Browser support: good (IE10+) - must support CSS gradients
+ * Limitations: limited to solid BG for page.
+ */
+
+/* .line-through {
+    background: linear-gradient(
+        to bottom, 
+        var(--colour-grey-light), 
+        var(--colour-grey-light) 1px,
+        transparent 1px,
+        transparent
+    ) repeat-x center 0.65em;
+}
+
+.line-through > * {
+    padding: 0 10px;
+    background-color: var(--colour-grey-extra-light);
+} */
+
+
+/* 
+ * OPTION 3: Drawing 2 lines on either side of the text - using before & after.
+ * NOTE: ...
+ * Browser support: good (IE10/11+) - must support flexbox & CSS gradients
+ */
+
+.line-through {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.line-through::before,
+.line-through::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    /* Simple lines - solid BG colour */
+    /* background-color: var(--colour-grey-light); */
+}
+
+/* Complex lines - using linear-gradient() */
+.line-through::before {
+    background: linear-gradient(
+        to left,
+        var(--colour-grey-light),
+        transparent 200px
+    );
+}
+
+.line-through::after {
+    background: linear-gradient(
+        to right,
+        var(--colour-grey-light),
+        transparent 200px
+    );
+}
+
+/* Top & bottom borders instead of line-through */
+@media only screen and (max-width: 600px) {
+    
+    .line-through {
+        /* flex-direction: column;
+        align-items: stretch; */
+        padding: 0.5em 0;
+        border-top: 1px solid var(--colour-grey-light);
+        border-bottom: 1px solid var(--colour-grey-light);
+    }
+
+    .line-through::before,
+    .line-through::after {
+        content: none;
+    }
+
+}
+
+
+
+
+
+/* SITE WRAPPER */
+
+.site-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+
+/* SITE HEADER */
+
+.site-header {
+    padding: 30px 0;
+    text-align: center;
+}
+
+.site-header__tagline {
+    margin: 0 0 30px;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--colour-grey-light);
+}
+
+.site-header__main-heading {}
+
+
+/* MAIN HEADING */
+
+.main-heading {
+    display: inline-block;
+    padding: 0;
+    border: none;
+}
+
+.main-heading__text {
+    margin: 0;
+    font-family: var(--font-sans-serif);
+    font-size: 2.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--colour-random-blue);
+}
+
+.main-heading__text-part-1 {}
+.main-heading__text-part-2 {
+    display: block;
+    font-family: var(--font-serif);
+    /* font-size: 2rem; */
+    font-size: 0.57em;
+    font-weight: normal;
+    letter-spacing: 0.58em;
+    text-indent: 0.58em;
+    color: var(--colour-grey-mid);
+}
+
+/* Check if there's enough space to display the larger "desktop" logo - e.g. ~380px */
+@media only screen and (min-width: 24em) {
+    
+    .main-heading__text {
+        font-size: 3.5rem;
+    }
+
+}
+
+
+/* CONTENT SECTIONS */
+
+.content-section {}
+
+.content-section__heading {}
+
+.content-section__heading--no-top-margin {
+    margin-top: 0;
+}
+
+.content-section__content {}
+
+
+/* SIDEBAR CONTENT */
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-content__sidebar {}
+
+.sidebar-content__sidebar figure {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+}
+
+.sidebar-content__content {}
+
+/* Change column layout according to the viewport size */
+@media only screen and (min-width: 500px) {
+    
+    .sidebar-content {
+        flex-direction: row;
+    }
+
+    .sidebar-content__sidebar,
+    .sidebar-content__content {
+        flex-basis: 50%;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+
+    .sidebar-content__sidebar,
+    .sidebar-content__content {
+        flex-basis: auto;
+    }
+
+    .sidebar-content__sidebar {
+        flex-shrink: 0;
+    }
+
+}
+
+
+/* GALLERY */
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+    /* justify-content: space-evenly; */
+    justify-content: center;
+    align-items: stretch; /* (default option) Make sure they're all the same height */
+    gap: 30px;
+}
+
+.gallery__item {
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 290px; /* 270px image + 20px padding */
+    /* flex: 0 0 290px; */
+}
+
+
+/* GALLERY PHOTOS */
+
+.photo {
+    display: inline-block;
+    padding: 10px;
+    background-color: white;
+    color: var(--colour-grey-mid);
+    border: none;
+    box-shadow: 3px 3px 8px 0px rgb(0 0 0 / 20%);
+    font-size: 1.6rem;
+    font-family: var(--font-serif);
+    text-align: center;
+    letter-spacing: 0.05em;
+    transition: 0.1s all;
+}
+
+.photo:focus,
+.photo:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 10px 3px rgb(0 0 0 / 20%);
+}
+
+.photo--theme-polaroid {
+    /* This is where the polaroid-specific styling could go */
+}
+
+.photo__frame {
+    margin: 0;
+}
+
+.photo__image {}
+
+.photo__caption {
+    margin: 5px 0 0;
+    line-height: 1.4;
+}
+
+
+/* SITE FOOTER */
+
+.site-footer {
+    padding: 50px 0;
+}
+
+.site-footer__copyright {
+    margin: 0;
+    font-family: var(--font-serif);
+    color: var(--colour-grey-mid);
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.05em;
+    font-size: 1.2rem;  /* ~12px */
+}
+
+.site-footer__copyright small {
+    font-size: inherit;
+}
+
+
+
+
+
+/* 
+ * EXAMPLE OF DEFINING GENERIC BREAKPOINTS FOR A WEBSITE
+ * Using @media queries and a mobile-first approach
+ *   1. Default styles (portrait phone)
+ *   2. >= 600px (landscape phone, portrait tablet)
+ *   3. >= 900px (landscape tablet, small laptop)
+ *   4. >= 1200px (laptop, small desktop)
+ *   5. >= 1800px (desktop, big screens)
+ */
+
+/*
+ * ONLY apply to devices >= 600px viewport width
+ * (e.g. landscape phone, portrait tablet)
+*/
+@media only screen and (min-width: 600px) {
+
+}
+
+/*
+ * ONLY apply to devices >= 900px viewport width
+ * (landscape tablet, small laptop)
+*/
+@media only screen and (min-width: 900px) {
+
+}
+
+/*
+ * ONLY apply to devices >= 1200px viewport width
+ * (laptop, small desktop)
+*/
+@media only screen and (min-width: 1200px) {
+
+}
+
+/*
+ * ONLY apply to devices >= 1800px viewport width
+ * (desktop, big screens)
+*/
+@media only screen and (min-width: 1800px) {
+
+}
+
+
